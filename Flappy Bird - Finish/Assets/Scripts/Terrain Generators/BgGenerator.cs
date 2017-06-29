@@ -5,17 +5,14 @@ using UnityEngine;
 public class BgGenerator : MonoBehaviour {
 
 	[SerializeField]
-	private Transform bgToTransform;
+	private Transform bgToClone;
 
 	// Use this for initialization
 	void Awake () {
-		// var bgGameObject = transform.GetComponentsInChildren<Transform>();
-		// Debug.Log(bgGameObject.Length);
-
 		for (int i = 1; i <= 7; i++) {
-			var newGameObject = Instantiate(bgToTransform);
+			var newGameObject = Instantiate(bgToClone);
 			newGameObject.parent = transform;
-			newGameObject.transform.position = new Vector2(7.2f * i, bgToTransform.position.y);
+			newGameObject.transform.position = new Vector2(7.2f * i, bgToClone.position.y);
 		}
 	}
 	

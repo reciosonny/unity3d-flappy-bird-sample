@@ -20,15 +20,24 @@ public class BirdScript : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+	/// <summary>
+	/// Sent when an incoming collider makes contact with this object's
+	/// collider (2D physics only).
+	/// </summary>
+	/// <param name="other">The Collision2D data associated with this collision.</param>
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		
+	}
+
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
 		{
 			didFlap = true;
 		}
 	}
-
+	
 	private bool didFlap = false;
 	void FixedUpdate() {
 		
