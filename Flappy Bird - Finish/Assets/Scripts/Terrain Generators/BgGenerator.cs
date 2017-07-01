@@ -6,13 +6,21 @@ public class BgGenerator : MonoBehaviour {
 
 	[SerializeField]
 	private Transform bgToClone;
+	public static BgGenerator instance;
 
-	// Use this for initialization
-	void Awake () {
+	public void GenerateBackground() {
 		for (int i = 1; i <= 7; i++) {
 			var newGameObject = Instantiate(bgToClone);
 			newGameObject.parent = transform;
 			newGameObject.transform.position = new Vector2(7.2f * i, bgToClone.position.y);
+		}
+	}
+
+	// Use this for initialization
+	void Awake () {
+		if (instance == null)
+		{
+			instance = this;
 		}
 	}
 	

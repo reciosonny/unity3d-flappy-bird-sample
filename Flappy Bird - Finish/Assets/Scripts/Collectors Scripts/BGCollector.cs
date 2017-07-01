@@ -16,9 +16,23 @@ public class BGCollector : MonoBehaviour {
 	/// Awake is called when the script instance is being loaded.
 	/// </summary>
 	void Awake() {
-		backgrounds = GameObject.FindGameObjectsWithTag("Background");
-		grounds = GameObject.FindGameObjectsWithTag("Ground");
-		lastBGX = backgrounds[0].transform.position.x;
+
+		// Debug.Log("last position backround: "+lastBGX);
+	}
+
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before
+	/// any of the Update methods is called the first time.
+	/// </summary>
+	void Start()
+	{
+        BgGenerator.instance.GenerateBackground();
+		GrndGenerator.instance.GenerateGround();
+
+
+        backgrounds = GameObject.FindGameObjectsWithTag("Background");
+        grounds = GameObject.FindGameObjectsWithTag("Ground");
+        lastBGX = backgrounds[0].transform.position.x;
 
 		foreach (GameObject item in backgrounds) {
 			var xPosition = item.transform.position.x;
@@ -29,10 +43,9 @@ public class BGCollector : MonoBehaviour {
 		foreach (GameObject item in grounds) {
 			var xPosition = item.transform.position.x;
 			if(lastGroundX < xPosition)
-				lastBGX = xPosition;
+				lastGroundX = xPosition;
 		}
 
-		Debug.Log("last position backround: "+lastBGX);
 	}
 	
 	// Update is called once per frame
@@ -41,19 +54,26 @@ public class BGCollector : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D target) {
-		Debug.Log("debugging...");
 		float bgWidth = 0f;
 		float groundWidth = 0f;
 		
-		if (target.tag == "Background")
-		{
-			Debug.Log("Background spotted!");
+		if (target.tag == "Background") {
+			// Debug.Log("Background spotted!");
 			bgWidth = ((BoxCollider2D)target).size.x;
-            target.transform.position = new Vector2(lastBGX + bgWidth, target.transform.position.y);
+			var bgPosition = target.transform.position;
+            bgPosition = new Vector2(lastBGX + bgWidth, target.transform.position.y);
+			target.transform.position = bgPosition;
+
+			lastBGX = bgPosition.x;
         } else if (target.tag == "Ground") {
-			
-			groundWidth = ((BoxCollider2D)target).size.x;
-            target.transform.position = new Vector2(lastBGX + groundWidth, target.transform.position.y);
+			groundWidth = GrndGenerator.instance.groundWidth; //((BoxCollider2D)target).size.x;
+			var groundPosition = target.transform.position;
+            groundPosition = new Vector2(lastGroundX + groundWidth, target.transform.position.y);
+			target.transform.position = groundPosition;
+
+			lastGroundX = groundPosition.x;
 		}
+
+
 	}
 }

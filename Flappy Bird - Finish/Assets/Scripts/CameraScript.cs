@@ -17,9 +17,8 @@ public class CameraScript : MonoBehaviour {
 
 	void MoveTheCamera() {
 		Vector3 temp = transform.position;
-		temp.x = BirdScript.instance.GetPositionX() + offsetX;
+		temp.x = BirdScript.instance.GetPositionX();
 
 		transform.position = temp;
-
 	}
 }

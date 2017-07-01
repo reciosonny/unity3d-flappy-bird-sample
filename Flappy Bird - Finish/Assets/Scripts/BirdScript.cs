@@ -9,13 +9,30 @@ public class BirdScript : MonoBehaviour {
 	private float forwardSpeed = 7f;
 	[SerializeField]
 	private Rigidbody2D myRigidBody;
+	[SerializeField]
+	private Animator anim;
+
 	public static BirdScript instance;
 
+	#region For debugging
+	[SerializeField]
+	private bool floatBird = false;
+
+	#endregion
+	
 	void Awake() {
 		if (instance == null) {
 			instance = this;
 		}
-	}
+
+		#region For debugging only
+			if (floatBird) {
+				myRigidBody.isKinematic = true;
+				myRigidBody.bodyType = RigidbodyType2D.Kinematic;
+			}
+		#endregion
+
+    }
 	// Use this for initialization
 	void Start () {
 		
@@ -44,7 +61,9 @@ public class BirdScript : MonoBehaviour {
 		MoveBird();
 		if (didFlap)
 		{
-			myRigidBody.velocity = new Vector2(0, 4f);
+			// myRigidBody.velocity = new Vector2(0, 4f);
+			Debug.Log("Flapping...");
+			anim.SetTrigger("Flap");
 			didFlap = false;
 		}
 	}
@@ -53,11 +72,6 @@ public class BirdScript : MonoBehaviour {
 		Vector3 temp = transform.position;
 		temp.x += forwardSpeed * Time.deltaTime;
 		transform.position = temp;
-	}
-
-	void SetCamerasX() {
-		
-
 	}
 
 	public float GetPositionX() {
